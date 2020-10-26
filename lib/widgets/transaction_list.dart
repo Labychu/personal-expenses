@@ -10,10 +10,10 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-			height: 300,
-      child: ListView(
-        children: _transactions.map((tx) {
-          return Card(
+			height: 500,
+      child: ListView.builder(
+				itemBuilder: (ctx, index) {
+					return Card(
             child: Row(
               children: <Widget>[
                 Container(
@@ -24,16 +24,16 @@ class TransactionList extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Color(0xFF3C40C6),
+                      color: Theme.of(context).primaryColor,
                       width: 2,
                     ),
                   ),
                   child: Text(
-                    "€${tx.amount}",
+                    "€${_transactions[index].amount}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Color(0xFF3C40C6),
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ),
@@ -41,14 +41,14 @@ class TransactionList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      tx.title,
+                      _transactions[index].title,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      DateFormat.yMMMEd().format(tx.date),
+                      DateFormat.yMMMEd().format(_transactions[index].date),
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.blueGrey,
@@ -59,7 +59,8 @@ class TransactionList extends StatelessWidget {
               ],
             ),
           );
-        }).toList(),
+				},
+				itemCount: _transactions.length,
       ),
     );
   }
