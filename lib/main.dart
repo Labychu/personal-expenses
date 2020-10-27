@@ -47,12 +47,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-    Transaction(
-        id: '1', title: 'JoJo merch', amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: '2', title: 'Hentai merch', amount: 19.99, date: DateTime.now()),
-  ];
+  final List<Transaction> _transactions = [];
+  //   Transaction(
+  //       id: '1', title: 'JoJo merch', amount: 69.99, date: DateTime.now()),
+  //   Transaction(
+  //       id: '2', title: 'Hentai merch', amount: 19.99, date: DateTime.now()),
+  // ];
 
   void _startAddingNewTransaction(ctx) {
     showModalBottomSheet(
