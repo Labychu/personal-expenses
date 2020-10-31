@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransactionInput extends StatefulWidget {
   final Function addTransaction;
@@ -12,21 +13,38 @@ class NewTransactionInput extends StatefulWidget {
 class _NewTransactionInputState extends State<NewTransactionInput> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  DateTime _selecetedDate;
+
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      // Get the current year - 1 -> first date will be first day of the last year.
+      firstDate: DateTime(DateTime.parse(DateTime.now().toString()).year - 1),
+      lastDate: DateTime.now(),
+    ).then((pickedData) {
+      if (pickedData == null) return;
+      setState(() {
+        _selecetedDate = pickedData;
+      });
+    });
+  }
 
   void _submitData() {
-		var enteredTitle = _titleController.text;
-		var enterdAmount = double.parse(_amountController.text);
+    var enteredTitle = _titleController.text;
+    var enteredAmount = double.parse(_amountController.text);
+		var enteredDate = 
 
-		if (enteredTitle.isEmpty || enterdAmount <= 0) {
-			return;
-		}
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+      return;
+    }
 
     widget.addTransaction(
       enteredTitle,
-      enterdAmount,
+      enteredAmount,
     );
 
-		Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -43,6 +61,31 @@ class _NewTransactionInputState extends State<NewTransactionInput> {
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: _amountController,
+            ),
+            Container(
+              height: 70,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      _selecetedDate == null
+                          ? 'No date chosen!'
+                          : "Picked date: ${DateFormat.yMd().format(_selecetedDate)}",
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    child: Text(
+                      'Chose date.',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: _presentDatePicker,
+                  ),
+                ],
+              ),
             ),
             ElevatedButton(
               onPressed: _submitData,

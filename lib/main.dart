@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+
 import './widgets/new_transaction_input.dart';
 import './widgets/transaction_list.dart';
+import './widgets/chart.dart';
+
+import './models/constants.dart' as constants;
 import './models/transaction.dart';
 
 void main() {
@@ -14,15 +18,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Personal Expenses',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
-        accentColor: Colors.deepPurpleAccent,
+        primarySwatch: constants.primaryThemeColor,
+        accentColor: constants.secondaryThemeColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
             headline6: TextStyle(
                 fontFamily: 'Quicksand',
                 fontWeight: FontWeight.bold,
-                fontSize: 16)),
+                fontSize: 16),
+						headline5: TextStyle(
+								fontSize: 12,
+						)),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                   headline6: TextStyle(
@@ -48,11 +55,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
-  //   Transaction(
-  //       id: '1', title: 'JoJo merch', amount: 69.99, date: DateTime.now()),
-  //   Transaction(
-  //       id: '2', title: 'Hentai merch', amount: 19.99, date: DateTime.now()),
-  // ];
+
+	List<Transaction> get _getRecentTransactions {
+		return _transactions.where((tx) {
+			// Return all transactions happened in the span of this week
+			// hence the .now() subtracts 7 days.
+			return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+		}).toList();
+	}
 
   void _startAddingNewTransaction(ctx) {
     showModalBottomSheet(
@@ -105,13 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: double.infinity,
                 child: Card(
                   color: Theme.of(context).primaryColor,
-                  child: Text(
-                    'Chart here!',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryTextTheme.headline1.color,
-                    ),
-                  ),
-                  elevation: 5,
+                  child: Chart(_getRecentTransactions),
+                  elevation: 6,
                 )),
             TransactionList(_transactions),
           ],

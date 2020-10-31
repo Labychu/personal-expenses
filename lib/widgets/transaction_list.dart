@@ -10,10 +10,10 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
-      child: (_transactions.isEmpty)
+      height: 300,
+      child: (_transactions.length == 0)
           ? Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Text(
                   "There is nothing here :<",
@@ -21,7 +21,7 @@ class TransactionList extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 30,
                     fontStyle: FontStyle.italic,
-                    color: Color(0xBBFF4848),
+                    color: Color(0xFF777E8B),
                   ),
                 ),
                 Container(
@@ -34,53 +34,37 @@ class TransactionList extends StatelessWidget {
               ],
             )
           : ListView.builder(
+              itemCount: _transactions.length,
               itemBuilder: (ctx, index) {
                 return Card(
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 16,
-                        ),
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        child: Text(
-                          "€${_transactions[index].amount}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Theme.of(context).primaryColor,
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 5,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text(
+                            '€${_transactions[index].amount}',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            _transactions[index].title,
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          Text(
-                            DateFormat.yMMMEd()
-                                .format(_transactions[index].date),
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.blueGrey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
+                    title: Text(
+                      _transactions[index].title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    subtitle: Text(DateFormat.yMMMMEEEEd()
+                        .format(_transactions[index].date)),
                   ),
                 );
               },
-              itemCount: _transactions.length,
             ),
     );
   }
