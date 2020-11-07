@@ -4,8 +4,9 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> _transactions;
+	final Function _deleteTransaction;
 
-  TransactionList(this._transactions);
+  TransactionList(this._transactions, this._deleteTransaction);
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,13 @@ class TransactionList extends StatelessWidget {
                     ),
                     subtitle: Text(DateFormat.yMMMMEEEEd()
                         .format(_transactions[index].date)),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete_sharp),
+											color: Theme.of(context).errorColor,
+                      onPressed: () {
+												_deleteTransaction(_transactions[index].id);
+											},
+                    ),
                   ),
                 );
               },

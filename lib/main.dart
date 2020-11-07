@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: constants.primaryThemeColor,
         accentColor: constants.secondaryThemeColor,
+				errorColor: constants.errorThemeColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
@@ -58,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 	List<Transaction> get _getRecentTransactions {
 		return _transactions.where((tx) {
-			// Return all transactions happened in the span of this week
+			// Return list of all transactions happened in the span of this week
 			// hence the .now() subtracts 7 days.
 			return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
 		}).toList();
@@ -77,18 +78,24 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _addNewTransaction(String newTitle, double newAmount) {
+  void _addNewTransaction(String newTitle, double newAmount, DateTime newDate) {
     final newTx = Transaction(
       title: newTitle,
       amount: newAmount,
       id: DateTime.now().toString(),
-      date: DateTime.now(),
+      date: newDate,
     );
 
     setState(() {
       _transactions.add(newTx);
     });
   }
+
+	void _deleteTransaction(String transactionID) {
+		setState(() {
+		  _transactions.removeWhere((element) => element.id == transactionID);
+		});
+	}
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Chart(_getRecentTransactions),
                   elevation: 6,
                 )),
-            TransactionList(_transactions),
+            TransactionList(_transactions, _deleteTransaction),
           ],
         ),
       ),

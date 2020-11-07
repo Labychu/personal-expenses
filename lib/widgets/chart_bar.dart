@@ -18,7 +18,7 @@ class ChartBar extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-					height: 20,
+          height: 20,
           child: FittedBox(
             child: Text(
               '€${spendingAmount.toStringAsFixed(0)}',
@@ -42,13 +42,16 @@ class ChartBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              FractionallySizedBox(
-                heightFactor: percentageTotalSpending,
-                child: Container(
-                    decoration: BoxDecoration(
-                  color: constants.barChartColor,
-                  borderRadius: BorderRadius.circular(20),
-                )),
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
+                  heightFactor: percentageTotalSpending,
+                  child: Container(
+                      decoration: BoxDecoration(
+                    color: constants.barChartColor,
+                    borderRadius: BorderRadius.circular(20),
+                  )),
+                ),
               ),
             ],
           ),

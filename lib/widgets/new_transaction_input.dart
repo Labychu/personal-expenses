@@ -31,9 +31,13 @@ class _NewTransactionInputState extends State<NewTransactionInput> {
   }
 
   void _submitData() {
+    if (_titleController.text.isEmpty ||
+        _amountController.text.isEmpty ||
+        _selecetedDate == null) {
+      return;
+    }
     var enteredTitle = _titleController.text;
     var enteredAmount = double.parse(_amountController.text);
-		var enteredDate = 
 
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
@@ -42,6 +46,7 @@ class _NewTransactionInputState extends State<NewTransactionInput> {
     widget.addTransaction(
       enteredTitle,
       enteredAmount,
+      _selecetedDate,
     );
 
     Navigator.of(context).pop();
@@ -50,7 +55,7 @@ class _NewTransactionInputState extends State<NewTransactionInput> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
+      child: Padding(
         padding: EdgeInsets.all(10),
         child: Column(
           children: <Widget>[

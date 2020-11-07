@@ -16,6 +16,7 @@ const colorCodes = {
 
 const primaryThemeColor = MaterialColor(0xFF9A8DFF, colorCodes);
 const secondaryThemeColor = MaterialColor(0xFFF9DDA4, colorCodes);
+const errorThemeColor = MaterialColor(0xFF777E8B, colorCodes);
 
 const barChartColor = Color(0xFF8B78E6);
 const barChartBgColor = Color(0xFFA4B0BD);
